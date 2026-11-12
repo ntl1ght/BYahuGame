@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lr8</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <div class="player-section">
+            <h2 id="user-name-display">User</h2>
+            <div class="score-box" id="user-score">0</div>
+            <div class="number-circle" id="user-number">0</div>
+        </div>
+        <div class="controls">
+            <button id="generate-btn">Generate</button>
+        </div>
+
+        <div class="player-section">
+            <h2>BigYahu</h2>
+            <div class="score-box" id="comp-score">0</div>
+            <div class="number-circle" id="comp-number">0</div>
+        </div>
+    </div>
+
+    <script>
+        let userName = "User";
+        let userScore = 0;
+        let compScore = 0;
+
+        window.onload = () => {
+            requestUserName();
+        };
+
+        function requestUserName() {
+            while (true) {
+                let input = prompt("введіть ваше ім'я");
+                if (input === null) {
+                    break;
+                } else if (input.trim() !== "") {
+                    userName = input.trim();
+                    document.getElementById('user-name-display').innerText = userName;
+                    break;
+                }
+                
+                alert("Введіть ім'я");
+            }
+        }
+
+        const generateBtn = document.getElementById('generate-btn');
+        const userScoreEl = document.getElementById('user-score');
+        const compScoreEl = document.getElementById('comp-score');
+        const userNumEl = document.getElementById('user-number');
+        const compNumEl = document.getElementById('comp-number');
+
+        generateBtn.addEventListener('click', () => {
+            const userNum = Math.floor(Math.random() * 10) + 1;
+            const compNum = Math.floor(Math.random() * 10) + 1;
+
+            userNumEl.innerText = userNum;
+            compNumEl.innerText = compNum;
+
+            if (userNum > compNum) {
+                userScore++;
+            } else if (compNum > userNum) {
+                compScore++;
+            }
+
+            userScoreEl.innerText = userScore;
+            compScoreEl.innerText = compScore;
+
+            setTimeout(checkWinCondition, 50);
+        });
+
+        function checkWinCondition() {
+            if (userScore === 3) {
+                alert(`Легчайшая для велічайшего!!! ${userName} перемагає з рахунком 3:${compScore}. Гра почнеться знову.`);
+                resetGame();
+            } else if (compScore === 3) {
+                alert(`Відбувся прогрів з рахунком 3:${userScore}. Гра почнеться знову.`);
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            userScore = 0;
+            compScore = 0;
+            userScoreEl.innerText = userScore;
+            compScoreEl.innerText = compScore;
+            userNumEl.innerText = '0';
+            compNumEl.innerText = '0';
+        }
+    </script>
+</body>
+</html>
